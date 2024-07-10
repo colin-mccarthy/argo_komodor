@@ -1,28 +1,58 @@
 #!/bin/bash
 #
 #
-#
 
 set -oe errexit
 
 # desired cluster name; default is "kind"
-KIND_CLUSTER_NAME="komodor"
+KIND_CLUSTER_NAME="kind"
 
 
 echo "> initializing Kind cluster: ${KIND_CLUSTER_NAME}"
 
 # create a cluster
-cat <<EOF |  kind create cluster  --image kindest/node:v1.23.13 --name "${KIND_CLUSTER_NAME}" --config=-
+cat <<EOF | kind create cluster  --image kindest/node:v1.23.13 --name "${KIND_CLUSTER_NAME}" --config=-
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 - role: control-plane
 EOF
 
-echo " ✓ helm repo add bitnami https://charts.bitnami.com/bitnami 📦 "
+
+
+echo " ✓ helm repo add hashicorp https://helm.releases.hashicorp.com 📦 "
 ##helm
-helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add hashicorp https://helm.releases.hashicorp.com 
 
-helm repo add backstage https://backstage.github.io/charts
 
-helm install backstage  backstage/backstage --version 1.8.0  --create-namespace --namespace backstage --set='ui.serviceType=NodePort'
+
+echo "> 😊😊 Verify Cluster install"
+
+sleep 30
+
+echo "> 😊😊 Verify Cluster install...."
+
+sleep 30
+
+echo "> 😊😊 Verify Cluster install...."
+
+sleep 30
+
+kubectl wait --for=condition=Ready=true node/vault-control-plane --timeout=30s
+
+
+
+echo " ✓ kubectl create ns vault 📦 "
+##vault
+#
+#helm install consul hashicorp/consul --set global.name=consul --create-namespace --namespace vault --version 0.39.0
+#
+
+
+helm install vault hashicorp/vault --create-namespace --namespace vault --set='ui.enabled=true' --set='ui.serviceType=NodePort' --set 'server.dev.enabled=true'
+
+sleep 30
+
+echo "> done! 📦 "
+
+kubectl get pods -n vault

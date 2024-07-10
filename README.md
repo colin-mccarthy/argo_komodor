@@ -17,3 +17,8 @@ kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | 
 ``
 
 Note that some shells (like Zsh) display a percentage sign at the end. It's not part of the password.
+
+
+
+
+https://www.arthurkoziel.com/setting-up-argocd-with-helm/

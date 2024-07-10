@@ -1,6 +1,8 @@
-# argo_komodor
 
-# Accessing the Web UI
+
+# Argo
+
+## Accessing the Web UI
 
 The Helm chart doesn't install an Ingress by default. To access the Web UI we have to port-forward to the argocd-server service on port 443:
 

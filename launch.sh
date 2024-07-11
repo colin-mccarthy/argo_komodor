@@ -25,7 +25,15 @@ helm repo add argo-cd https://argoproj.github.io/argo-helm
 
 helm dep update charts/argo-cd/
 
+echo "charts/**/charts" >> .gitignore
+
+
+
+## install argo
+
 helm install argo-cd charts/argo-cd/
+
+
 
 
 echo "> 😊😊 Verify Cluster install"
